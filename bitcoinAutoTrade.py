@@ -1,6 +1,5 @@
-
 import time
-import upbitauto
+import pyupbit
 import datetime
 
 access = "oF2t3VAMCcjO12ZzW5E5vCXo73QgUdXU1DvpRaJF"
@@ -8,13 +7,13 @@ secret = "OZJS0UHc1dxgM42oCEw7id7gur1j4IwW4wxg4pxL"
 
 def get_target_price(ticker, k):
     """변동성 돌파 전략으로 매수 목표가 조회"""
-    df = upbitauto.get_ohlcv(ticker, interval="day", count=2)
+    df = pyupbit.get_ohlcv(ticker, interval="day", count=2)
     target_price = df.iloc[0]['close'] + (df.iloc[0]['high'] - df.iloc[0]['low']) * k
     return target_price
 
 def get_start_time(ticker):
     """시작 시간 조회"""
-    df = upbitauto.get_ohlcv(ticker, interval="day", count=1)
+    df = pyupbit.get_ohlcv(ticker, interval="day", count=1)
     start_time = df.index[0]
     return start_time
 
@@ -31,10 +30,10 @@ def get_balance(ticker):
 
 def get_current_price(ticker):
     """현재가 조회"""
-    return upbitauto.get_orderbook(tickers=ticker)[0]["orderbook_units"][0]["ask_price"]
+    return pyupbit.get_orderbook(tickers=ticker)[0]["orderbook_units"][0]["ask_price"]
 
 # 로그인
-upbit = upbitauto.Upbit(access, secret)
+upbit = pyupbit.Upbit(access, secret)
 print("autotrade start")
 
 # 자동매매 시작
